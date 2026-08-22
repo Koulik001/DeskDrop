@@ -1,0 +1,384 @@
+/* ── Reset & Base ───────────────────────────────────────────────────── */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #0f1117;
+    color: #e2e8f0;
+    min-height: 100vh;
+    padding: 1.5rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────── */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #7dd3fc;
+    letter-spacing: -0.5px;
+}
+
+/* ── Status Badge ───────────────────────────────────────────────────── */
+.status {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+}
+
+.status.connected    { background: #166534; color: #86efac; }
+.status.disconnected { background: #7f1d1d; color: #fca5a5; }
+.status.reconnecting { background: #78350f; color: #fcd34d; }
+
+/* ── Shared Section Base ────────────────────────────────────────────── */
+section {
+    background: #1e2330;
+    border: 1px solid #2d3748;
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+section h2 {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #64748b;
+    margin-bottom: 1rem;
+}
+
+/* ── Device List ────────────────────────────────────────────────────── */
+#device-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+/* ── Sending Status Line ────────────────────────────────────────────── */
+/*
+    Sits below device list inside the presence panel
+    "Sending to everyone" | "Sending to N devices — click to change"
+*/
+#sending-status {
+    margin-top: 0.85rem;
+    font-size: 0.75rem;
+    color: #64748b;
+    min-height: 1rem;
+}
+
+/* ── Device Card ────────────────────────────────────────────────────── */
+.device-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    background: #0f1117;
+    border: 1px solid #2d3748;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    min-width: 95px;
+    position: relative;
+    transition: border-color 0.15s, background 0.15s;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Hover — only non-"you" cards respond */
+.device-card:not(.you):hover {
+    border-color: #475569;
+    background: #161b27;
+}
+
+/* Your own card — styled distinctly, not clickable */
+.device-card.you {
+    border-color: #1d4ed8;
+    cursor: default;
+}
+
+/* Selected card — will receive clipboard on next send */
+/* 2px is intentional — makes selected unmistakably distinct from default 1px */
+.device-card.selected {
+    border: 2px solid #3b82f6;
+    background: #0d1829;
+}
+
+/* Selected + hover — keep selected appearance prominent */
+.device-card.selected:hover {
+    background: #0d1829;
+    border-color: #60a5fa;
+}
+
+.device-icon {
+    font-size: 2rem;
+    line-height: 1;
+}
+
+/* Slightly smaller than before — pet names are longer than "Mobile"/"Desktop" */
+.device-label {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    text-align: center;
+    line-height: 1.3;
+}
+
+/* "You" badge pinned to top-right corner of your own card */
+.you-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #1d4ed8;
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 0.15rem 0.4rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.empty-room {
+    color: #475569;
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+/* ── Clipboard Section ──────────────────────────────────────────────── */
+#clipboard-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+#clipboard-input {
+    width: 100%;
+    background: #0f1117;
+    border: 1px solid #2d3748;
+    border-radius: 8px;
+    color: #e2e8f0;
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    padding: 0.75rem 1rem;
+    resize: vertical;
+    min-height: 140px;
+    transition: border-color 0.2s;
+    outline: none;
+    display: block;
+}
+
+#clipboard-input:focus {
+    border-color: #3b82f6;
+}
+
+#clipboard-input::placeholder {
+    color: #334155;
+}
+
+/* ── Sync Status ────────────────────────────────────────────────────── */
+.sync-status {
+    font-size: 0.75rem;
+    font-weight: 500;
+    min-height: 1.1rem;
+}
+
+.sync-status.sent     { color: #34d399; } /* green ↑ sent */
+.sync-status.received { color: #60a5fa; } /* blue  ↓ received */
+
+/*
+    Override the shared section styles for file-section
+    The dashed border lives on #drop-zone, not the section wrapper
+*/
+#file-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* ── Drop Zone ──────────────────────────────────────────────────────── */
+/*
+    <label for="file-input"> — clicking anywhere opens file picker
+    Drag-and-drop is handled in app.js
+    .drag-over class added/removed by dragover/dragleave/drop events
+*/
+#drop-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-height: 120px;
+    border: 1px dashed #2d3748;
+    border-radius: 8px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    text-align: center;
+    user-select: none;
+}
+
+#drop-zone:hover {
+    border-color: #475569;
+    background: #0d1523;
+}
+
+/* Active drag state — file is hovering over the zone */
+#drop-zone.drag-over {
+    border-color: #3b82f6;
+    background: #0d1829;
+}
+
+.drop-icon {
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.drop-hint {
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+/* "browse" text inside the hint */
+.file-link {
+    color: #60a5fa;
+    text-decoration: underline;
+}
+
+.drop-sub {
+    font-size: 0.72rem;
+    color: #475569;
+}
+
+/* ── File Error ─────────────────────────────────────────────────────── */
+.file-error {
+    font-size: 0.75rem;
+    color: #f87171;
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+.file-error.hidden { display: none; }
+
+/* ── Transfer Progress ──────────────────────────────────────────────── */
+#transfer-progress {
+    margin-top: 0.75rem;
+}
+
+#transfer-progress.hidden { display: none; }
+
+#progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-bottom: 0.35rem;
+}
+
+/* Truncate long file names with ellipsis */
+#progress-filename {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 75%;
+}
+
+#progress-bar-track {
+    width: 100%;
+    height: 5px;
+    background: #2d3748;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+/* Width driven by JS: fill.style.width = `${pct}%` */
+#progress-bar-fill {
+    height: 100%;
+    background: #3b82f6;
+    border-radius: 999px;
+    width: 0%;
+    transition: width 0.1s ease;
+}
+
+.placeholder {
+    color: #475569;
+    font-size: 0.85rem;
+    font-style: italic;
+    text-align: center;
+}
+
+/* ── Mobile ─────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    body             { padding: 1rem; }
+    h1               { font-size: 1.2rem; }
+    #clipboard-input { font-size: 0.8rem; }
+}
+
+/* ── Receive Progress ───────────────────────────────────────────────── */
+/*
+    Sits below the send progress bar in #file-section
+    Separated by a top border so the two bars are visually distinct
+    Green fill vs blue send fill — immediately readable
+*/
+#receive-progress {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #2d3748;
+}
+
+#receive-progress.hidden { display: none; }
+
+#receive-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-bottom: 0.35rem;
+}
+
+/* Blue tint on filename — signals "incoming" vs grey outgoing */
+#receive-filename {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 75%;
+    color: #60a5fa;
+}
+
+#receive-bar-track {
+    width: 100%;
+    height: 5px;
+    background: #2d3748;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+/* Green — distinct from the blue sender bar */
+#receive-bar-fill {
+    height: 100%;
+    background: #34d399;
+    border-radius: 999px;
+    width: 0%;
+    transition: width 0.1s ease;
+}
+
+/* Status line below receive bar: "photo.jpg saved to Downloads" */
+.receive-status-text {
+    font-size: 0.72rem;
+    color: #64748b;
+    margin-top: 0.35rem;
+    min-height: 1rem;
+}

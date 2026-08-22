@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeskDrop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>DeskDrop</h1>
+        <span id="status" class="status disconnected">Connecting...</span>
+    </header>
+    
+    
+    <section id="presence-panel">
+        <h2>Devices in your room:</h2>
+        <div id="device-list">
+
+        </div>
+        <p id="sending-status"></p>
+    </section>
+
+    <section id="clipboard-section">
+        <h2>Clipboard</h2>
+        <textarea
+            id="clipboard-input"
+            placeholder="Type or paste here — syncs instantly to selected devices"
+            spellcheck="false"
+            rows="6"
+        ></textarea>
+        <div id="clipboard-status" class="sync-status"></div>
+    </section>
+
+    <section id="file-section">
+        <h2>File Transfer</h2>
+        <label id="drop-zone" for="file-input">
+            <span class="drop-icon">📂</span>
+            <p class="drop-hint">Drop a file here or <span class="file-link">browse</span></p>
+            <p class="drop-sub">Array file upto 500MB · sends to selected devices</p>
+        </label>
+
+        <input type="file" id="file-input" style="display:none">
+
+        <p id="file-error" class="file-error hidden"></p>
+
+        <div id="transfer-progress" class="hidden">
+            <div id="progress-info">
+                <span id="progress-filename"></span>
+                <span id="progress-percent"></span>
+            </div>
+            <div id="progress-bar-track">
+                <div id="progress-bar-fill"></div>
+            </div>
+        </div>
+
+        <div id="receive-progress" class="hidden">
+            <div id="receive-info">
+                <span id="receive-filename"></span>
+                <span id="receive-percent"></span>
+            </div>
+            <div id="receive-bar-track">
+                <div id="receive-bar-fill"></div>
+            </div>
+            <p id="receive-status" class="receive-status-text"></p>
+        </div>
+    </section>  
+    
+    <script src="app.js"></script>
+</body>
+</html>
