@@ -16,7 +16,7 @@ app.use(express.static(path.join(__dirname, '../public')))
 
 function extractroomKey(req){
     const raw = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.socket.remoteAddress || '127.0.0.1'
-    console.log(raw)
+    //console.log(raw)
     if(raw.startsWith('::ffff')){
         const ip = raw.replace('::ffff', '')
         return classifyIPv4(ip)
