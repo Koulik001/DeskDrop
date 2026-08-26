@@ -495,6 +495,8 @@ async function sendFile(file){
             to
         })
 
+        await new Promise(resolve => setTimeout(resolve, 100))
+
         console.log(`[FILE] sending "${file.name}" size=${file.size} chunks=${totalChunks} id=${transferId}`)
 
         for(let i = 0; i < totalChunks; i++){
