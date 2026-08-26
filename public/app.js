@@ -75,8 +75,18 @@ function openDB(){
 
         request.onsuccess = (event) => {
             db = event.target.result
-            console.log('[IDB] database opened')
-            resolve(db)
+            
+            const tx    = db.transaction('chunks', 'readwrite')
+            const store = tx.objectStore('chunks')
+            store.clear()
+            tx.oncomplete = () => {
+                console.log('[IDB] cleared stale chunks from previous session')
+                resolve(db)
+            }
+
+            tx.onerror = () => {
+                resolve(db)
+            }
         }
 
         request.onerror = (event) => {
@@ -404,8 +414,10 @@ async function handleFileEof(msg){
         console.error('[FILE EOF] assembly or download failed', err)
         showReceiveError(`Failed to download "${state.fileName}" — ${err.message}`)
     }finally{
-        activeReceive = null
-        setTimeout(resetReceiveProgress, 4000)
+        if(activeReceive === state) {
+            activeReceive = null
+            setTimeout(resetReceiveProgress, 4000)
+        }
     }
 }
 
