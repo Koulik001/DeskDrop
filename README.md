@@ -155,7 +155,7 @@ This section documents the non-obvious choices made during development and the a
 
 Socket.IO is the most common WebSocket abstraction for Node.js. It was rejected deliberately.
 
-Socket.IO hides the underlying protocol behind a custom framing layer, automatic reconnection logic, and an event system that works differently from native WebSocket. In an interview, "I used Socket.IO" is hard to probe beyond the surface. "I used raw `ws`" opens protocol-level questions about ping/pong, binary vs text frames, FIFO ordering, and backpressure — all of which have real answers.
+Socket.IO hides the underlying protocol behind a custom framing layer, automatic reconnection logic, and an event system that works differently from native WebSocket.
 
 The tradeoff is that features Socket.IO provides for free (reconnect, room abstraction, event routing) had to be built manually. Every one of those manual implementations is a talking point.
 
