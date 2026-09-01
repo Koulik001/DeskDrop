@@ -20,13 +20,15 @@ const MAX_FILE_SIZE = 500 * 1024 * 1024
 const ADJECTIVES = [
     'swift',  'bright', 'calm',  'bold',  'keen',
     'wise',   'warm',   'cool',  'sharp', 'quiet',
-    'brave',  'fresh',  'light', 'soft',  'wild',
+    'brave',  'fresh',  'light', 'soft',  'wild', 
+    'dark'
 ]
 
 const ANIMALS = [
     'panda', 'tiger', 'eagle', 'fox',  'wolf',
     'bear',  'hawk',  'lion',  'deer', 'seal',
-    'crane', 'raven', 'lynx',  'orca', 'kite',
+    'crane', 'raven', 'lynx',  'orca', 'kite', 
+    'mink'
 ]
 
 function deviceLabel(deviceId) {
